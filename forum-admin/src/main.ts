@@ -10,7 +10,10 @@ async function bootstrap() {
   //配置验证规则
   app.useGlobalPipes(new ValidationPipe({
     whitelist: true,
-    transform: true //是否开启类型转换 开启后网络字符串获取参数时会自动转换
+    transform: true, //是否开启类型转换 开启后网络字符串获取参数时会自动转换
+    transformOptions: {
+      enableImplicitConversion: true // 设置为true则在DTO文件中不需要申明@Type(() => Number)即可实现网络字符串转换
+    }
   }));
   const config = new DocumentBuilder()
       .setTitle('接口文档')

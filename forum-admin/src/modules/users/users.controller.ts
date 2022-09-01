@@ -3,6 +3,8 @@ import { UsersService } from './users.service';
 import { ApiTags } from "@nestjs/swagger";
 import { CreateUsersDto } from "./dto/create-users.dto";
 import { UpdateUsersDto } from "./dto/update-users.dto";
+import {PaginationQueryDto} from "../../common/dto/pagination-query.dto";
+
 /*import { UsersEntities } from "./entities/users.entities";*/
 
 @Controller('users')
@@ -11,8 +13,8 @@ export class UsersController {
     constructor(private readonly userService: UsersService) {}
 
     @Get()
-    findAll (@Query() query) {
-        return this.userService.findAll(query);
+    findAll (@Query() paginationQueryDto: PaginationQueryDto ) {
+        return this.userService.findAll(paginationQueryDto);
     }
 
     @Get(':id')

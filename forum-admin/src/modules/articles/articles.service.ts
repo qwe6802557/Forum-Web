@@ -1,33 +1,62 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException} from '@nestjs/common';
 import { InjectRepository } from "@nestjs/typeorm";
 import { ArticlesEntities } from "../../db/entities/articles/articles.entities";
 import { Repository } from "typeorm";
+import { UsersEntities } from "../../db/entities/users/users.entities";
 
 @Injectable()
 export class ArticlesService {
   constructor(
       @InjectRepository(ArticlesEntities)
-      private usersRepository: Repository<ArticlesEntities>,
+      private articlesRepository: Repository<ArticlesEntities>,
+      @InjectRepository(UsersEntities)
+      private usersRepository: Repository<UsersEntities>,
   ) {}
 
   async create(createArticle) {
-    const result = await this.usersRepository.create(createArticle);
-    return await this.usersRepository.save(result);
+    const user = await this.usersRepository.findOneBy({
+      id: createArticle.userId
+    });
+    if (!user) {
+      throw new NotFoundException('用户未找到');
+    }
+    const result = await this.articlesRepository.create({
+      ...createArticle,
+      user
+    });
+    return await this.articlesRepository.save(result);
   }
 
   async findAll() {
-    return this.usersRepository.find();
+    return await this.articlesRepository.find({
+      relations: ["user"]
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} article`;
+  async findOne(id: number) {
+    return await this.articlesRepository.findOneBy({ id });
   }
 
-  update(id: number, updateArticle) {
-    return `This action updates a #${id} article`;
+  async update(id: number, updateArticle) {
+    const result = await this.articlesRepository.preload({
+      id: +id,
+      ...updateArticle
+    });
+    if (!result) {
+      throw new NotFoundException('更新失败, 该文章未找到');
+    }
+    return await this.articlesRepository.save(result);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} article`;
+  async remove(id: number) {
+    const result = await this.articlesRepository.findOneBy({
+      id
+    });
+
+    if (!result) {
+      throw new NotFoundException('删除失败, 该文章未找到');
+    }
+
+    return this.articlesRepository.remove(result);
   }
 }

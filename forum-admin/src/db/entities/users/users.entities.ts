@@ -8,8 +8,6 @@ export class UsersEntities {
         description: '主键'
     }) // 定义swagger每个字段中文描述
     @PrimaryGeneratedColumn()
-    @JoinTable()
-    @OneToMany(() => ArticlesEntities, article => article.userId )
     id: number;
 
     @ApiModelProperty({
@@ -30,4 +28,11 @@ export class UsersEntities {
     })
     @Column()
     telephone: string
+
+    @ApiModelProperty({
+        description: '所属用户的帖子'
+    })
+    @JoinTable()
+    @OneToMany(() => ArticlesEntities, article => article.user )
+    articles: ArticlesEntities[]
 }

@@ -1,5 +1,4 @@
 import { ApiModelProperty } from "@nestjs/swagger/dist/decorators/api-model-property.decorator";
-import { Column, ManyToOne } from "typeorm";
 import {IsNumber, IsString} from "class-validator";
 
 export class CreateArticleDto {
@@ -16,7 +15,7 @@ export class CreateArticleDto {
     content: string
 
     @ApiModelProperty({
-        description: '发布人'
+        description: '创建人ID',
     })
     @IsNumber()
     userId: number
