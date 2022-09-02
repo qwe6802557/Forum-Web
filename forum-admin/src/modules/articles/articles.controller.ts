@@ -2,8 +2,10 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { ArticlesService } from './articles.service';
 import { CreateArticleDto } from './dto/create-article.dto';
 import { UpdateArticleDto } from './dto/update-article.dto';
+import {ApiTags} from "@nestjs/swagger";
 
 @Controller('articles')
+@ApiTags('文章管理') // 设置swagger分块标题
 export class ArticlesController {
   constructor(private readonly articlesService: ArticlesService) {}
 

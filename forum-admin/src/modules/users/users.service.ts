@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, EntityManager, DataSource } from 'typeorm';
+import { Repository, DataSource } from 'typeorm';
 import { UsersEntities } from '../../db/entities/users/users.entities';
 import { PaginationQuery } from "../../constants/common.constants";
 import { ArticlesEntities } from "../../db/entities/articles/articles.entities";
