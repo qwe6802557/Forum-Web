@@ -1,9 +1,10 @@
-import { Injectable, NotFoundException, HttpException, HttpStatus } from '@nestjs/common';
+import {Injectable, NotFoundException, HttpException, HttpStatus, Inject} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, DataSource } from 'typeorm';
 import { UsersEntities } from '../../db/entities/users/users.entities';
-import { PaginationQuery } from "../../constants/common.constants";
+import { PaginationQuery} from "../../constants/common.constants";
 import { ArticlesEntities } from "../../db/entities/articles/articles.entities";
+import { BcryptService } from "../../common/utils/bcrypt.service";
 
 @Injectable()
 export class UsersService {
@@ -12,7 +13,8 @@ export class UsersService {
         private usersRepository: Repository<UsersEntities>,
         @InjectRepository(ArticlesEntities)
         private articlesRepository: Repository<ArticlesEntities>,
-        private dataSource: DataSource
+        private dataSource: DataSource,
+        private bcryptProvider: BcryptService
     ) {}
     // 分页查询
     async findAll(query) {
@@ -40,8 +42,8 @@ export class UsersService {
         } : list
     }
     // 查找指定用户
-    async findOne(id: number) {
-        return await this.usersRepository.findOneBy({ id });
+    async findOne(username) {
+        return await this.usersRepository.findOneBy({ username });
     }
     // 创建用户
     async create (createUser) {
@@ -51,6 +53,8 @@ export class UsersService {
         if (resultUser) {
             throw new HttpException('该用户名已存在', HttpStatus.BAD_REQUEST);
         }
+        // 加密操作
+        createUser.password = await this.bcryptProvider.encryption(createUser.password);
         const result = await this.usersRepository.create(createUser);
         return await this.usersRepository.save(result);
     }
