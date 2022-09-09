@@ -1,4 +1,4 @@
-import { IsString } from "class-validator";
+import { IsOptional, IsString } from "class-validator";
 import { ApiModelProperty } from "@nestjs/swagger/dist/decorators/api-model-property.decorator";
 
 export class CreateUsersDto {
@@ -20,4 +20,11 @@ export class CreateUsersDto {
     })
     @IsString()
     readonly telephone: string;
+
+    @ApiModelProperty({
+        description: '用户身份'
+    })
+    @IsString()
+    @IsOptional()
+    readonly identity: string;
 }

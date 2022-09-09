@@ -33,6 +33,11 @@ export class AuthService {
             throw new BadRequestException('验证码不正确');
         }
 
+        const {password, ...others} = await this.usersService.findOne(user.username);
+        session.payload = {
+            ...others
+        };
+
         return {
             access_token: this.jwtService.sign(payload, {
                 secret: JWT_KEY.secret

@@ -5,6 +5,13 @@ import { LoggingMiddleware } from "./middleware/logging.middleware";
 import { JwtAuthGuard } from "../modules/auth/guards/jwt-auth.guard";
 import { BcryptService } from "./utils/bcrypt.service";
 import { SvgCaptchaService } from "./utils/svg-capcha.service";
+import { ValidateRolesService } from "./utils/validate-roles.service";
+
+const SERVICES = [
+    BcryptService,
+    SvgCaptchaService,
+    ValidateRolesService
+];
 
 @Module({
     imports: [ConfigModule],
@@ -12,8 +19,10 @@ import { SvgCaptchaService } from "./utils/svg-capcha.service";
         {
         provide: APP_GUARD,
         useClass: JwtAuthGuard
-    }, BcryptService, SvgCaptchaService],
-    exports: [BcryptService, SvgCaptchaService]
+    },
+        ...SERVICES
+    ],
+    exports: [...SERVICES]
 })
 export class CommonModule implements NestModule {
     configure(consumer: MiddlewareConsumer): any {

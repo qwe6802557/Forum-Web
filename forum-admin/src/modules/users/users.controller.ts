@@ -4,11 +4,12 @@ import { ApiTags } from "@nestjs/swagger";
 import { CreateUsersDto } from "./dto/create-users.dto";
 import { UpdateUsersDto } from "./dto/update-users.dto";
 import { PaginationQueryDto } from "../../common/dto/pagination-query.dto";
-import { Public } from "../../common/decorators/public.decorator";
-import { LoginUsersDto } from "./dto/login-users.dto";
+import { Admin } from "../../common/decorators/admin.decorator";
+/*import { LoginUsersDto } from "./dto/login-users.dto";*/
 
 /*import { UsersEntities } from "./entities/users.entities";*/
 
+@Admin()
 @Controller('users')
 @ApiTags('用户管理') // 设置swagger分块标题
 export class UsersController {

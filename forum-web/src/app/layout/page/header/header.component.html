@@ -1,0 +1,12 @@
+<nz-header>
+  <div class="header-container">
+    <div class="logo">LOGO</div>
+    <div class="menu-bar">
+      <ul nz-menu nzTheme="light" nzMode="horizontal">
+        <li nz-menu-item [nzSelected]="router.url === '/home'" (click)="jump('/home')">主页</li>
+        <li nz-menu-item [nzSelected]="router.url === '/social'" (click)="jump('/social')">社区交流</li>
+        <li nz-menu-item [nzSelected]="router.url === '/release'" (click)="jump('/release')">发表帖子</li>
+      </ul>
+    </div>
+  </div>
+</nz-header>
