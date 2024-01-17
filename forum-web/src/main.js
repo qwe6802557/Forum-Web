@@ -48,11 +48,47 @@ NProgress.configure({
   minimum: 0.3 // 初始化时的最小百分比
 })
 
+// 不重定向白名单
+const whiteList = ['/login','/networkManagement']
+// 进入下个路由之前，进行操作
+// router.beforeEach((to, from , next) => {
+//   NProgress.start()
+//   // 单点登陆sessionStorage与localStorage的token互通
+//   if(sessionStorage.getItem('msaAuthorization')){
+//     localStorage.setItem('AUTHORIZATIONGENERAL', sessionStorage.getItem('msaAuthorization'))
+//   }else if(localStorage.getItem('msaAuthorization')){
+//     localStorage.setItem('AUTHORIZATIONGENERAL', localStorage.getItem('msaAuthorization'))
+//   }
+//   // 菜单权限控制
+//   let limitMenus = store.state.menu.menus || []
+//   if(to.path === '/login'){
+//     next()
+//   }else if(!localStorage.getItem('AUTHORIZATIONGENERAL')){
+//     next(`/login?redirect=${to.path}`)
+//   }else if(!sessionStorage.getItem('AUTHORIZATIONAPPLY') && to.path.indexOf('/apply/') > -1){
+//     next(`/login?redirect=${to.path}`)
+//   }else if (to.path === '/404') {
+//     next()
+//   }else if(limitMenus.length && limitMenus.indexOf(to.path) == -1){
+//     next({path: '/404'})
+//   } else if(to.path.indexOf('/apply/') > -1){
+//     if(sessionStorage.getItem('AUTHORIZATIONAPPLY')){
+//       next()
+//     }else{
+//       sessionStorage.removeItem('CURRENTAPPLICATIONS')
+//       next({path: '/control/dealt'})
+//     }
+//   } else {
+//     sessionStorage.removeItem('AUTHORIZATIONAPPLY')
+//     sessionStorage.removeItem('CURRENTAPPLICATIONS')
+//     next()
+//   }
+// })
 // 设置cookie
 if (process.env.NODE_ENV !== 'production') {
   document.cookie = "forumId=Demo; expires=Tue, 24 NOV 2029 16:00:00 UTC; path=/";
 }
-// document.cookie = "forumId=xxx; expires=Tue, 24 NOV 2023 16:00:00 UTC; path=/";
+// document.cookie = "forumId=chenzhe; expires=Tue, 24 NOV 2023 16:00:00 UTC; path=/";
 
 
 router.beforeEach((to, from, next) => {
@@ -75,10 +111,45 @@ router.beforeEach((to, from, next) => {
   } else {
     next();
   }
+  // let limitRouter = '1'
+  // if (to.path === '/404' || whiteList.indexOf(to.path) > -1) {
+  //   next()
+  // } else if (store.state.menu.menus.length && !limitRouter) {
+  //   next({
+  //     path: '/404'
+  //   })
+  // } else if (to.path.indexOf('/networkManagement/') > -1) {
+  //   if (sessionStorage.getItem('AUTHORIZATIONYDCXZHGLAPPLY') == null) {
+  //     let data = localStorage.getItem('AUTHORIZATIONYDCXZHGLAPPLY')
+  //     sessionStorage.setItem('AUTHORIZATIONYDCXZHGLAPPLY', data)
+  //     sessionStorage.setItem('CURRENTDSFRYAPPLICATIONS', '/networkManagement/')
+  //     next()
+  //   } else if (sessionStorage.getItem('AUTHORIZATIONYDCXZHGLAPPLY')) {
+  //     next()
+  //   } else {
+  //     sessionStorage.removeItem('CURRENTDSFRYAPPLICATIONS')
+  //     next({
+  //       path: '/networkManagement/paymentAccount'
+  //     })
+  //   }
+  // } else if (to.path.indexOf('/apply/') > -1) {
+  //   if (sessionStorage.getItem('AUTHORIZATIONAPPLY')) {
+  //     next()
+  //   } else {
+  //     sessionStorage.removeItem('CURRENTAPPLICATIONS')
+  //     next({
+  //       path: '/control/dealt'
+  //     })
+  //   }
+  // } else {
+  //   sessionStorage.removeItem('AUTHORIZATIONAPPLY')
+  //   sessionStorage.removeItem('CURRENTAPPLICATIONS')
+  //   next()
+  // }
 })
 // 即将进入新的页面组件前，关闭掉进度条
 router.afterEach(() => {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem('AUTHORIZATIONGENERAL');
   if(token) setCookie('Authorization', token, 7);
   NProgress.done();
 });
@@ -87,6 +158,9 @@ Vue.config.productionTip = false
 
 init();
 async function init() {
+  if(!window.location.href.match('network-sso')) {
+    await store.dispatch('acl/getPermission'); // 获取有权限的路由列表
+  }
   new Vue({
     el: '#app',
     store,

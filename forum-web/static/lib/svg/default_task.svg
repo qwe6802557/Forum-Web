@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="52px" height="50px" viewBox="0 0 52 50" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 61.2 (89653) - https://sketch.com -->
+    <title>任务节点01</title>
+    <desc>Created with Sketch.</desc>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="搜索引擎-流程设计03备份" transform="translate(-256.000000, -268.000000)">
+            <g id="任务节点01" transform="translate(257.000000, 269.000000)">
+                <rect id="矩形" stroke="#A8B5C9" stroke-width="2" fill="#FFFFFF" x="0" y="-1.24344979e-13" width="50" height="47.2727273" rx="5"></rect>
+                <g id="编组-36" transform="translate(9.000000, 9.000000)" fill="#A8B5C9" fill-rule="nonzero">
+                    <g id="编组-33">
+                        <g id="任务">
+                            <path d="M15.3846154,30.7692308 C23.8813089,30.7692308 30.7692308,23.8817657 30.7692308,15.3856356 C30.7692308,6.88746512 23.8813089,0 15.3846154,0 C6.88792187,0 0,6.88746512 0,15.3835952 C0,23.8817657 6.88792192,30.7692308 15.3846154,30.7692308 Z" id="路径"></path>
+                        </g>
+                    </g>
+                </g>
+                <g id="铅笔备份" transform="translate(16.000000, 16.000000)" fill="#FFFFFF" fill-rule="nonzero">
+                    <path d="M0.1933596,17.7890832 L0.1933596,14.0468718 L3.93557099,17.7890832 L0.1933596,17.7890832 L0.1933596,17.7890832 Z M5.18871698,16.5016598 L1.48078297,12.7937258 L10.9221807,3.11203487 L15.0076932,6.69973436 L5.18871698,16.5016598 L5.18871698,16.5016598 Z M16.1235539,5.63537765 L12.1410317,1.8246115 L13.8404868,0.210937745 L17.8057649,4.05615706 L16.1235539,5.63537765 L16.1235539,5.63537765 Z" id="形状"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
